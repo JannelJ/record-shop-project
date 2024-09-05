@@ -28,7 +28,8 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Album createAlbum(Album album) {
+    public Album createAlbum(Album album) { // when an album is added
+        album.setInStock(album.getStockCount() > 0); // in stock if count > 0
         return albumRepository.save(album);
     }
 
@@ -37,11 +38,13 @@ public class AlbumServiceImpl implements AlbumService {
 
         Album existingAlbum = getAlbumById(id);
 
-        existingAlbum.setTitle(album.getTitle());
+        existingAlbum.setAlbumName(album.getAlbumName());
         existingAlbum.setArtist(album.getArtist());
         existingAlbum.setReleaseDate(album.getReleaseDate());
         existingAlbum.setPrice(album.getPrice());
         existingAlbum.setGenre(album.getGenre());
+        existingAlbum.setInStock(album.isInStock()); // boolean
+        existingAlbum.setStockCount(album.getStockCount());
 
         return albumRepository.save(existingAlbum);
     }

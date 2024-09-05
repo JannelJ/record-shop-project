@@ -1,5 +1,11 @@
 package org.northcodets.example.RecordShop.model;
 
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+
+
 public enum Genre {
     ROCK("Rock"),
     POP("Pop"),
@@ -7,7 +13,7 @@ public enum Genre {
     HIPHOP("Hip-Hop"),
     INDIE("Indie");
 
-     String genreDescriptor;
+     final String genreDescriptor;
 
     Genre(String descriptor){
         this.genreDescriptor = descriptor;
