@@ -73,11 +73,19 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$[3].price").value(100.0))
 				.andExpect(jsonPath("$[3].genre").value("JAZZ"));
 
+	}
+	@Test
+	public void returnAlbumById() throws Exception {
+		Album album = new Album(1L, "Sam Cooke", "Ain't That Good News",
+				LocalDate.of(1964, 12, 22), 20.0, 50, true, Genre.JAZZ);
 
+		when(albumService.getAlbumById(1L)).thenReturn(album);
 
-
-
-
+		mockMvc.perform(get("/api/v1/albums/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.artist").value("Sam Cooke"))
+				.andExpect(jsonPath("$.albumName").value("Ain't That Good News"));
 	}
 
 }
