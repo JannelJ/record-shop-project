@@ -31,8 +31,13 @@ import java.util.List;
     // GET album by ID
     @GetMapping ("/{id}")
     public ResponseEntity<Album> getAlbumById(@PathVariable Long id) {
-        Album album = albumService.getAlbumById(id);
-        return new ResponseEntity<>(album, HttpStatus.OK);
+        try {
+            Album album = albumService.getAlbumById(id);
+            return new ResponseEntity<>(album, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 

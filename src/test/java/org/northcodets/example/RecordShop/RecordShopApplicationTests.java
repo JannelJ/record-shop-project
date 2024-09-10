@@ -87,5 +87,13 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$.artist").value("Sam Cooke"))
 				.andExpect(jsonPath("$.albumName").value("Ain't That Good News"));
 	}
+	@Test // testing for a 404 when no album is found
+	public void returnAlbumById_Invalid() throws Exception {
+
+		when(albumService.getAlbumById(1L)).thenThrow(new RuntimeException("Album not found"));
+
+		mockMvc.perform(get("/api/v1/albums/1"))
+				.andExpect(status().isNotFound());
+	}
 
 }
