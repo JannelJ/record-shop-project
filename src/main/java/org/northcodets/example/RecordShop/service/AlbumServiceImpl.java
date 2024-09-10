@@ -34,6 +34,11 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    public Album saveAlbum(Album album) {
+        return albumRepository.save(album);
+    }
+
+    @Override
     public Album updateAlbum(Long id, Album album) {
 
         Album existingAlbum = getAlbumById(id);
