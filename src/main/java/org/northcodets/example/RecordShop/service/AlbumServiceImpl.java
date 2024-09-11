@@ -34,7 +34,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public Album saveAlbum(Album album) {
+    public Album saveAlbum(Album album) { // so created album is saved in repo
         return albumRepository.save(album);
     }
 

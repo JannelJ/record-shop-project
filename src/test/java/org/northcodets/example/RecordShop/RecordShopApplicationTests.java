@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -95,5 +98,21 @@ class RecordShopApplicationTests {
 		mockMvc.perform(get("/api/v1/albums/1"))
 				.andExpect(status().isNotFound());
 	}
+@Test
+	public void createNewAlbum() throws Exception {
+
+		Album newAlbum = new Album(5L, "Tyler the Creator", "Flower Boy",
+				LocalDate.of(2024, 8, 23), 25.0, 100, true, Genre.HIPHOP);
+
+		when(albumService.createAlbum(any(Album.class))).thenReturn(newAlbum);
+
+		mockMvc.perform(post("/api/v1/albums")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{ \"artist\": \"Tyler the Creator\", \"albumName\": \"Flower Boy\", \"releaseDate\": \"2024-08-23\", \"price\": 25.0, \"stockCount\": 100, \"isInStock\": true, \"genre\": \"HIPHOP\" }"))
+				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.artist").value("Tyler the Creator"))
+				.andExpect(jsonPath("$.albumName").value("Flower Boy"))
+				.andExpect(jsonPath("$.price").value(25.0));
+}
 
 }
