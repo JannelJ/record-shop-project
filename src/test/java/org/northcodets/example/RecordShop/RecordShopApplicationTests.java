@@ -41,7 +41,7 @@ class RecordShopApplicationTests {
 
 
 	@Test
-	public void returnAllAlbums() throws Exception {
+	public void getAllAlbums() throws Exception {
 		List<Album> mockAlbums = Arrays.asList(
 				new Album(1L, "Sam Cooke", "Ain't That Good News",
 						LocalDate.of(1964, 12, 22), 20.0, 50, true, Genre.JAZZ),
@@ -83,7 +83,7 @@ class RecordShopApplicationTests {
 
 	}
 	@Test
-	public void returnAlbumById() throws Exception {
+	public void getAlbumById() throws Exception {
 		Album album = new Album(1L, "Sam Cooke", "Ain't That Good News",
 				LocalDate.of(1964, 12, 22), 20.0, 50, true, Genre.JAZZ);
 
@@ -96,7 +96,7 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$.albumName").value("Ain't That Good News"));
 	}
 	@Test // testing for a 404 when no album is found
-	public void returnAlbumById_Invalid() throws Exception {
+	public void getAlbumById_Invalid() throws Exception {
 
 		when(albumService.getAlbumById(1L)).thenThrow(new RuntimeException("Album not found"));
 
