@@ -1,5 +1,7 @@
 package org.northcodets.example.RecordShop;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.northcodets.example.RecordShop.model.Album;
@@ -17,9 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -29,6 +31,9 @@ class RecordShopApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@MockBean
 	AlbumService albumService;
@@ -99,6 +104,7 @@ class RecordShopApplicationTests {
 				.andExpect(status().isNotFound());
 	}
 @Test
+@DisplayName("POST create new album")
 	public void createNewAlbum() throws Exception {
 
 		Album newAlbum = new Album(5L, "Tyler the Creator", "Flower Boy",
@@ -114,5 +120,24 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$.albumName").value("Flower Boy"))
 				.andExpect(jsonPath("$.price").value(25.0));
 }
+	@Test
+	public void updateAlbum() throws Exception {
+		Album albumToUpdate = new Album(1L, "Updated Artist", "Updated Album",
+				LocalDate.of(2024, 8, 23), 30.0, 150, true, Genre.POP);
 
-}
+		when(albumService.updateAlbum(eq(1L), any(Album.class))).thenReturn(albumToUpdate);
+
+		mockMvc.perform(put("/api/v1/albums/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(new ObjectMapper().writeValueAsString(albumToUpdate)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.artist").value("Updated Artist"))
+				.andExpect(jsonPath("$.albumName").value("Updated Album"))
+				.andExpect(jsonPath("$.price").value(30.0))
+				.andExpect(jsonPath("$.stockCount").value(150));
+	}
+
+	}
+
+
+

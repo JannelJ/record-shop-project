@@ -44,5 +44,19 @@ import java.util.List;
         return new ResponseEntity<>(createdAlbum, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}") // update album by ID
+    public ResponseEntity<Album> updateAlbum
+            (@PathVariable Long id,
+             @RequestBody Album album) {
+
+        Album updatedAlbum = albumService.updateAlbum(id, album);
+        return new ResponseEntity<>(updatedAlbum, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAlbum(@PathVariable Long id){
+        albumService.deleteAlbum(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }
