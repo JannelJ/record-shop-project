@@ -1,9 +1,8 @@
-package org.northcodets.example.RecordShop.repository;
+package org.northcoders.example.RecordShop.repository;
 
 
-import org.northcodets.example.RecordShop.model.Album;
+import org.northcoders.example.RecordShop.model.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

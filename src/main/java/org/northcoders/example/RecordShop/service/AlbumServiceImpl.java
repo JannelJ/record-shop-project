@@ -1,8 +1,8 @@
-package org.northcodets.example.RecordShop.service;
+package org.northcoders.example.RecordShop.service;
 
 
-import org.northcodets.example.RecordShop.model.Album;
-import org.northcodets.example.RecordShop.repository.AlbumRepository;
+import org.northcoders.example.RecordShop.repository.AlbumRepository;
+import org.northcoders.example.RecordShop.model.Album;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

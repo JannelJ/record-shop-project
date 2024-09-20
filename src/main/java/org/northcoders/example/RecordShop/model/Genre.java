@@ -1,4 +1,4 @@
-package org.northcodets.example.RecordShop.model;
+package org.northcoders.example.RecordShop.model;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

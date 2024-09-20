@@ -1,12 +1,11 @@
-package org.northcodets.example.RecordShop.model;
+package org.northcoders.example.RecordShop.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 import java.time.LocalDate;
 
 @Entity

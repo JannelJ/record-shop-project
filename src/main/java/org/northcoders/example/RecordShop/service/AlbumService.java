@@ -1,6 +1,6 @@
-package org.northcodets.example.RecordShop.service;
+package org.northcoders.example.RecordShop.service;
 
-import org.northcodets.example.RecordShop.model.Album;
+import org.northcoders.example.RecordShop.model.Album;
 
 import java.util.List;
 

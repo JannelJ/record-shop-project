@@ -1,12 +1,14 @@
-package org.northcodets.example.RecordShop;
+package org.northcoders.example.RecordShop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.northcodets.example.RecordShop.model.Album;
-import org.northcodets.example.RecordShop.model.Genre;
-import org.northcodets.example.RecordShop.service.AlbumService;
+import org.northcoders.example.RecordShop.model.Album;
+import org.northcoders.example.RecordShop.model.Genre;
+import org.northcoders.example.RecordShop.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +36,13 @@ class RecordShopApplicationTests {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@BeforeEach
+	public void setup() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+	}
 
 	@MockBean
 	AlbumService albumService;
@@ -127,6 +136,11 @@ class RecordShopApplicationTests {
 
 		when(albumService.updateAlbum(eq(1L), any(Album.class))).thenReturn(albumToUpdate);
 
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+
 		mockMvc.perform(put("/api/v1/albums/1")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(new ObjectMapper().writeValueAsString(albumToUpdate)))
@@ -134,7 +148,11 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$.artist").value("Updated Artist"))
 				.andExpect(jsonPath("$.albumName").value("Updated Album"))
 				.andExpect(jsonPath("$.price").value(30.0))
-				.andExpect(jsonPath("$.stockCount").value(150));
+				.andExpect(jsonPath("$.stockCount").value(150))
+				.andExpect(jsonPath("$.isInStock").value(true))
+				.andExpect(jsonPath("$.genre").value("POP"));
+
+		verify(albumService, times(1)).updateAlbum(eq(1L), any(Album.class));
 	}
 
 	@Test
