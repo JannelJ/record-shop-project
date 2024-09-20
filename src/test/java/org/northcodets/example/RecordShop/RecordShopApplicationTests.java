@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -135,6 +135,16 @@ class RecordShopApplicationTests {
 				.andExpect(jsonPath("$.albumName").value("Updated Album"))
 				.andExpect(jsonPath("$.price").value(30.0))
 				.andExpect(jsonPath("$.stockCount").value(150));
+	}
+
+	@Test
+	public void deleteAlbumById() throws Exception {
+
+		doNothing().when(albumService).deleteAlbum(1L);
+		mockMvc.perform(delete("/api/v1/albums/1"))
+				.andExpect(status().isNoContent());
+
+		verify(albumService, times(1)).deleteAlbum(1L);
 	}
 
 	}
