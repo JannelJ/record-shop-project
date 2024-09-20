@@ -1,6 +1,7 @@
 package org.northcoders.example.RecordShop.service;
 
 
+import org.northcoders.example.RecordShop.exceptions.ResourceNotFoundException;
 import org.northcoders.example.RecordShop.repository.AlbumRepository;
 import org.northcoders.example.RecordShop.model.Album;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,14 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> getAllAlbums() {
-        return albumRepository.findAll();
+        List<Album> albums = albumRepository.findAll();
+
+        if(albums.isEmpty()) {
+            throw new ResourceNotFoundException("No albums found in the database");
+        }
+        return albums;
+
+
     }
 
     @Override
